@@ -15,4 +15,10 @@ Prerequisites:
 
 ### Resources
 * Videos, Lectures and Notes at https://see.stanford.edu/course/cs229
-* 4 problem sets: 
+* Problem sets:
+
+| Problem Set        | Data           | Solution  | Solution Data |
+| ------------- | ------------- | ----- | ----- |
+| [Problem Set 1](https://see.stanford.edu/materials/aimlcs229/problemset1.pdf) | [PS1-data.zip](https://see.stanford.edu/materials/aimlcs229/PS1-data.zip) | [Solution Set 1](https://see.stanford.edu/materials/aimlcs229/ps1_solution.pdf) | [ps1_solution-data.zip](https://see.stanford.edu/materials/aimlcs229/ps1_solution-data.zip) |
+
+
