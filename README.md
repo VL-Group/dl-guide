@@ -66,4 +66,27 @@ Neural Networks: [1](http://cs231n.github.io/neural-networks-1/), [2](http://cs2
 
 # Environments
 
-Using Anaconda with python 3.7 is recommended
+Using Anaconda with python 3.7 is recommended. https://www.anaconda.com/distribution/
+
+```shell
+# Replace the link with proper version
+wget https://repo.anaconda.com/archive/Anaconda3-2019.03-Linux-x86_64.sh
+sh ./Anaconda3-2019.03-Linux-x86_64.sh
+```
+
+* Installing tensorflow:
+
+```shell
+conda install tensorflow-gpu
+# tenorflow-gpu 1.13.0 only support CUDA 10.0+, which is incompatible with NVIDIA driver version 
+# lower than 400. If 1.13.0 not work, try an older version
+conda install tensorflow-gpu==1.X.X
+```
+
+* Installing pytorch:
+```shell
+conda install pytorch torchvision cudatoolkit=10.0 -c pytorch
+#                                 cudatoolkit=9.0
+#                                 cudatoolkit=8.0
+```
+
