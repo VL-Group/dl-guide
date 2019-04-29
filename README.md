@@ -68,6 +68,14 @@ Neural Networks: [1](http://cs231n.github.io/neural-networks-1/), [2](http://cs2
 
 Using Anaconda with python 3.7 is recommended. https://www.anaconda.com/distribution/
 
+## Why Anaconda?
+
+* Anaconda already includes most of the scientific packages you need.
+* Anaconda installs BLAS/MKL libraries that boost numpy to super fast.
+* Anaconda can automatically solve environment issues, such as CUDA and CuDNN. You can easily switch between virtualenv to change the base working envs.
+
+## Install
+
 ```shell
 # Replace the link with proper version
 wget https://repo.anaconda.com/archive/Anaconda3-2019.03-Linux-x86_64.sh
@@ -90,3 +98,30 @@ conda install pytorch torchvision cudatoolkit=10.0 -c pytorch
 #                                 cudatoolkit=8.0
 ```
 
+
+# Code Snippets
+
+Let's dance!
+
+* numpy broadcasting
+```python
+a = np.random.randn(60, 2, 7)
+b = np.random.randn(15, 7)
+
+# Error. you can't add two array with different dim
+c = a + b
+
+# [60, 1, 2, 7]
+a = a[:, None, :, :]
+# [15, 1, 7]
+b = np.expand_dims(b, 1)
+
+# Correct with broadcasting
+c = a + b
+
+# [60,  1, 2, 7]
+#     [15, 1, 7]
+# --------------
+# [60, 15, 2, 7]
+print(c.shape)
+```
