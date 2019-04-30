@@ -125,3 +125,31 @@ c = a + b
 # [60, 15, 2, 7]
 print(c.shape)
 ```
+* Indexing
+```python
+a = np.array([[2, 4, 5],
+              [6, 7, 9],
+              [1, 4, 0],
+              [3, 8, 2]])
+# [2, 4, 5]
+a[0]
+# [3, 8, 2]
+a[-1]
+# [2, 6, 1, 3] 
+a[:, 0]
+# [[1, 4, 0],
+#  [3, 8, 2]]
+a[2:]
+# [[6, 7, 9],
+#  [3, 8, 2]]
+a[[1, 3]]
+```
+* Matmul vs dot
+```python
+a = np.random.randn(3, 4)
+b = np.random.randn(4, 7)
+
+a.dot(b)
+np.matmul(a, b)
+a @ b
+```
