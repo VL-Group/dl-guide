@@ -179,7 +179,7 @@ def query_gpu(need_gpus:int=1, need_vram_each_gpu:int=-1, write_os_env:bool=True
         EnvironmentError: if can't find any matches, raise error
     
     Returns:
-        list -- return avaliable gpus. (a zero-base list when write_os_env=True, otherwise a list of exact gpu ids)
+        list -- a int list return avaliable gpus. (a zero-base list when write_os_env=True, otherwise a list of exact gpu ids)
     """
     gpus = gpustat.new_query().gpus
     gpu_list = []
@@ -192,14 +192,18 @@ def query_gpu(need_gpus:int=1, need_vram_each_gpu:int=-1, write_os_env:bool=True
         else:
             if g.entry['memory.total'] - g.entry['memory.used'] > need_vram_each_gpu + 64:
                 gpu_list.append(i)
-        if len(gpu_list) > need_gpus:
+        if len(gpu_list) >= need_gpus:
             break
     
     if len(gpu_list) > need_gpus:
         if write_os_env:
-            os.environ["CUDA_VISIBLE_DEVICES"] = ",".join(gpu_list)
+            os.environ["CUDA_VISIBLE_DEVICES"] = ",".join(map(str, gpu_list))
             return list(range(len(gpu_list)))
         else:
+            try:
+                os.environ.pop("CUDA_VISIBLE_DEVICES")
+            except:
+                pass
             return gpu_list
     else:
         raise EnvironmentError("Current system status is not satisfied")
