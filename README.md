@@ -164,3 +164,43 @@ for g in gpus:
   if g.entry['memory.used'] < NEED:
     # do something
 ```
+
+or a full-version:
+```python
+def query_gpu(need_gpus:int=1, need_vram_each_gpu:int=-1, write_os_env:bool=True) -> list:
+    """query all gpus in system and get a list of gpu can use
+    
+    Keyword Arguments:
+        need_gpus {int} -- how many gpus are needed (default: {1})
+        need_vram_each_gpu {int} -- how much VRAM is needed for each gpu (MiB), a value lower than 0 means all is needed (default: {-1})
+        write_os_env {bool} -- if True, write the list to CUDA_VISIBLE_DEVICES (default: {True})
+    
+    Raises:
+        EnvironmentError: if can't find any matches, raise error
+    
+    Returns:
+        list -- return avaliable gpus. (a zero-base list when write_os_env=True, otherwise a list of exact gpu ids)
+    """
+    gpus = gpustat.new_query().gpus
+    gpu_list = []
+    for i in range(len(gpus)):
+        g = gpus[i]
+        if need_vram_each_gpu == -1:
+            # give space for basic vram
+            if g.entry['memory.used'] < 64:
+                gpu_list.append(i)
+        else:
+            if g.entry['memory.total'] - g.entry['memory.used'] > need_vram_each_gpu + 64:
+                gpu_list.append(i)
+        if len(gpu_list) > need_gpus:
+            break
+    
+    if len(gpu_list) > need_gpus:
+        if write_os_env:
+            os.environ["CUDA_VISIBLE_DEVICES"] = ",".join(gpu_list)
+            return list(range(len(gpu_list)))
+        else:
+            return gpu_list
+    else:
+        raise EnvironmentError("Current system status is not satisfied")
+```
