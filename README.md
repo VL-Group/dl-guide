@@ -153,3 +153,14 @@ a.dot(b)
 np.matmul(a, b)
 a @ b
 ```
+
+
+* Choose a free gpu programatically
+```python
+import gpustat
+gpus = gpustat.new_query().gpus
+for g in gpus:
+  print(g.entry['memory.used'])
+  if g.entry['memory.used'] < NEED:
+    # do something
+```
