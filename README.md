@@ -195,7 +195,7 @@ def query_gpu(need_gpus:int=1, need_vram_each_gpu:int=-1, write_os_env:bool=True
         if len(gpu_list) >= need_gpus:
             break
     
-    if len(gpu_list) > need_gpus:
+    if len(gpu_list) >= need_gpus:
         if write_os_env:
             os.environ["CUDA_VISIBLE_DEVICES"] = ",".join(map(str, gpu_list))
             return list(range(len(gpu_list)))
