@@ -167,10 +167,11 @@ for g in gpus:
 
 or a full-version:
 ```python
-def query_gpu(need_gpus:int=1, need_vram_each_gpu:int=-1, write_os_env:bool=True) -> list:
+def query_gpu(given_list:list=None, need_gpus:int=1, need_vram_each_gpu:int=-1, write_os_env:bool=True) -> list:
     """query all gpus in system and get a list of gpu can use
     
     Keyword Arguments:
+        given_list {list} -- a pre-defined list of which gpu are avaliable for use, if None, use all gpu in the system. For example, pass [2, 3, 4], will only use gpu id: 2, 3, 4 and ignore others (default: None)
         need_gpus {int} -- how many gpus are needed (default: {1})
         need_vram_each_gpu {int} -- how much VRAM is needed for each gpu (MiB), a value lower than 0 means all is needed (default: {-1})
         write_os_env {bool} -- if True, write the list to CUDA_VISIBLE_DEVICES (default: {True})
@@ -183,7 +184,11 @@ def query_gpu(need_gpus:int=1, need_vram_each_gpu:int=-1, write_os_env:bool=True
     """
     gpus = gpustat.new_query().gpus
     gpu_list = []
-    for i in range(len(gpus)):
+    if type(given_list) is list:
+        it = given_list
+    else:
+        it = range(len(gpus))
+    for i in it:
         g = gpus[i]
         if need_vram_each_gpu == -1:
             # give space for basic vram
@@ -196,6 +201,7 @@ def query_gpu(need_gpus:int=1, need_vram_each_gpu:int=-1, write_os_env:bool=True
             break
     
     if len(gpu_list) >= need_gpus:
+        print(f"Found {gpu_list} satisfied")
         if write_os_env:
             os.environ["CUDA_VISIBLE_DEVICES"] = ",".join(map(str, gpu_list))
             return list(range(len(gpu_list)))
