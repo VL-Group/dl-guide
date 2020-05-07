@@ -78,8 +78,8 @@ Using Anaconda with python 3.7 is recommended. https://www.anaconda.com/distribu
 
 ```shell
 # Replace the link with proper version
-wget https://repo.anaconda.com/archive/Anaconda3-2019.03-Linux-x86_64.sh
-sh ./Anaconda3-2019.03-Linux-x86_64.sh
+user:~$wget https://repo.anaconda.com/archive/Anaconda3-2019.03-Linux-x86_64.sh
+user:~$sh ./Anaconda3-2019.03-Linux-x86_64.sh
 ```
 
 It's recommended to run conda init (say 'yes' in post-install procedure), so when you login next time, you will enter the base environment of conda automatically.
@@ -88,27 +88,30 @@ It's recommended to run conda init (say 'yes' in post-install procedure), so whe
 
 ```shell
 # create a virtual env with specified name and install python with dependencies
-conda create -n [env_name]
+(base)user:~$conda create -n [env_name]
 # activate an env
-conda activate [env_name]
+(base)user:~$conda activate [env_name]
+# if you aren't in the conda env yet, you should use source command instead
+user:~$source activate [env_name]
 # quit from an env
-conda deactivate
+(base)user:~$conda deactivate
 ```
 
 * Installing tensorflow:
 
 ```shell
-conda install tensorflow-gpu
+(env)user:~$conda install tensorflow-gpu
 # tenorflow-gpu 1.13.0 only support CUDA 10.0+, which is incompatible with NVIDIA driver version 
 # lower than 400. If 1.13.0 not work, try an older version
-conda install tensorflow-gpu==1.X.X
+(env)user:~$conda install tensorflow-gpu==1.X.X
 ```
 
 * Installing pytorch:
+You can also find the newest command in https://pytorch.org/get-started/locally/
 ```shell
-conda install pytorch torchvision cudatoolkit=10.0 -c pytorch
-#                                 cudatoolkit=9.0
-#                                 cudatoolkit=8.0
+(env)user:~$conda install pytorch torchvision cudatoolkit=10.0 -c pytorch
+#                                             cudatoolkit=9.0
+#                                             cudatoolkit=8.0
 ```
 
 
