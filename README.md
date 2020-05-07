@@ -92,7 +92,7 @@ It's recommended to run conda init (say 'yes' in post-install procedure), so whe
 # activate an env
 (base)user@host:~$ conda activate [env_name]
 # if you aren't in the conda env yet, you should use source command instead
-user:~$source activate [env_name]
+user@host:~$ source activate [env_name]
 # quit from an env
 (base)user@host:~$ conda deactivate
 ```
