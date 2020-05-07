@@ -82,6 +82,19 @@ wget https://repo.anaconda.com/archive/Anaconda3-2019.03-Linux-x86_64.sh
 sh ./Anaconda3-2019.03-Linux-x86_64.sh
 ```
 
+It's recommended to run conda init (say 'yes' in post-install procedure), so when you login next time, you will enter the base environment of conda automatically.
+
+* Creating Environments:
+
+```shell
+# create a virtual env with specified name and install python with dependencies
+conda create -n [env_name]
+# activate an env
+conda activate [env_name]
+# quit from an env
+conda deactivate
+```
+
 * Installing tensorflow:
 
 ```shell
