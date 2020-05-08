@@ -1,0 +1,8 @@
+* Install MicroK8s
+
+* Install NVIDIA docker 2
+
+* Enable MicroK8s GPU Addon
+
+* Configure Deployment
+
