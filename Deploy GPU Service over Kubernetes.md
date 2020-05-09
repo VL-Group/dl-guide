@@ -30,8 +30,25 @@ $(lsb_release -cs) \
 stable"
 user@host:~$ sudo apt-get update
 user@host:~$ sudo apt-get install docker-ce docker-ce-cli containerd.io
+user@host:~$ sudo mkdir -p /etc/systemd/system/docker.service.d
+```
+
+## Install NVIDIA docker 2
+
+```console
+user@host:~$ # Add the package repositories
+user@host:~$ distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
+user@host:~$ curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -
+user@host:~$ curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
+
+user@host:~$ sudo apt-get update && sudo apt-get install -y nvidia-container-toolkit
+```
+
+Check the docker runtine has been set correctly
+
+```console
 user@host:~$ # setup daemon
-user@host:~$ cat > /etc/docker/daemon.json <<EOF
+user@host:~$ cat <<EOF | sudo tee /etc/docker/daemon.json
 {
     "exec-opts": [
         "native.cgroupdriver=systemd"
@@ -49,44 +66,9 @@ user@host:~$ cat > /etc/docker/daemon.json <<EOF
     }
 }
 EOF
-user@host:~$ sudo mkdir -p /etc/systemd/system/docker.service.d
 user@host:~$ # restart docker
 user@host:~$ sudo systemctl daemon-reload
 user@host:~$ sudo systemctl restart docker
-```
-
-## Install NVIDIA docker 2
-
-```console
-user@host:~$ # Add the package repositories
-user@host:~$ distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
-user@host:~$ curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -
-user@host:~$ curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
-
-user@host:~$ sudo apt-get update && sudo apt-get install -y nvidia-container-toolkit
-user@host:~$ sudo systemctl restart docker
-```
-
-Check the docker runtine has been set correctly
-
-```console
-user@host:~$ cat /etc/docker/daemon.json
-{
-    "exec-opts": [
-        "native.cgroupdriver=systemd"
-    ],
-    "log-driver": "json-file",
-    "log-opts": {
-        "max-size": "100m"
-    },
-    "storage-driver": "overlay2",
-    "runtimes": {
-        "nvidia": {
-            "path": "nvidia-container-runtime",
-            "runtimeArgs": []
-        }
-    }
-}
 ```
 
 ## Deploy Kubernetes
