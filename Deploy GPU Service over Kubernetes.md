@@ -49,10 +49,10 @@ user@host:~$ cat > /etc/docker/daemon.json <<EOF
     }
 }
 EOF
-user@host:~$ mkdir -p /etc/systemd/system/docker.service.d
+user@host:~$ sudo mkdir -p /etc/systemd/system/docker.service.d
 user@host:~$ # restart docker
-user@host:~$ systemctl daemon-reload
-user@host:~$ systemctl restart docker
+user@host:~$ sudo systemctl daemon-reload
+user@host:~$ sudo systemctl restart docker
 ```
 
 ## Install NVIDIA docker 2
