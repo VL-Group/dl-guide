@@ -103,8 +103,10 @@ For each node in the cluster, you must:
 ```console
 user@host:~$ # turn off swap
 user@host:~$ sudo swapoff -a
-user@host:~$ sudo vim /etc/fstab
 user@host:~$ # comment or remove the swap entry
+user@host:~$ sudo vim /etc/fstab
+user@host:~$ # remove the swap UUID
+user@host:~$ sudo vim /etc/initramfs-tools/conf.d/resume
 user@host:~$ sudo reboot
 ```
 
