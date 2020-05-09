@@ -55,7 +55,39 @@ user@host:~$ systemctl daemon-reload
 user@host:~$ systemctl restart docker
 ```
 
-* Install NVIDIA docker 2
+## Install NVIDIA docker 2
+
+```console
+user@host:~$ # Add the package repositories
+user@host:~$ distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
+user@host:~$ curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -
+user@host:~$ curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
+
+user@host:~$ sudo apt-get update && sudo apt-get install -y nvidia-container-toolkit
+user@host:~$ sudo systemctl restart docker
+```
+
+Check the docker runtine has been set correctly
+
+```console
+user@host:~$ cat /etc/docker/daemon.json
+{
+    "exec-opts": [
+        "native.cgroupdriver=systemd"
+    ],
+    "log-driver": "json-file",
+    "log-opts": {
+        "max-size": "100m"
+    },
+    "storage-driver": "overlay2",
+    "runtimes": {
+        "nvidia": {
+            "path": "nvidia-container-runtime",
+            "runtimeArgs": []
+        }
+    }
+}
+```
 
 * Enable MicroK8s GPU Addon
 
