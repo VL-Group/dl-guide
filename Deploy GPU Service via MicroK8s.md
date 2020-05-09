@@ -22,8 +22,8 @@ pub   rsa4096 2017-02-22 [SCEA]
 uid           [ unknown] Docker Release (CE deb) <docker@docker.com>
 sub   rsa4096 2017-02-22 [S]
 
-user@host:~$ # When using a cutting-edge lsb_release, change the $(lsb_release -cs) to\
-latest public lts i.e. bionic
+user@host:~$ # When using a cutting-edge lsb_release, change the $(lsb_release -cs) to
+user@host:~$ # latest public lts i.e. bionic
 user@host:~$ sudo add-apt-repository \
 "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
 $(lsb_release -cs) \
