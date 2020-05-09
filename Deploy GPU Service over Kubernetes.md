@@ -25,7 +25,7 @@ sub   rsa4096 2017-02-22 [S]
 user@host:~$ # When using a cutting-edge lsb_release, change the $(lsb_release -cs) to
 user@host:~$ # latest public lts i.e. bionic
 user@host:~$ sudo add-apt-repository \
-"deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+"deb [arch=amd64] https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/ubuntu \
 $(lsb_release -cs) \
 stable"
 user@host:~$ sudo apt-get update
