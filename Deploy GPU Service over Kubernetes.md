@@ -139,11 +139,13 @@ user@host:~$ sudo systemctl restart kubelet
 
 ### Create Cluster
 
+Before `kubeadm init`, you should choose a pod network, see https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/#pod-network
+
 In the master node, run kubeadm initialization
 
 ```console
 user@host:~$ # init kubeadm (pull image from mirror)
-user@host:~$ sudo kubeadm init --image-repository registry.cn-hangzhou.aliyuncs.com/google_containers
+user@host:~$ sudo kubeadm init --pod-network-cidr XXXXX --image-repository registry.cn-hangzhou.aliyuncs.com/google_containers
 ...
 ...
 
@@ -165,6 +167,19 @@ kubeadm join 192.168.1.82:6443 --token XXX \
     --discovery-token-ca-cert-hash sha256:XXX
 ```
 
+Then, apply your choosed pod network:
+
+```console
+user@host:~$ sudo kubectl apply -f <add-on.yaml>
+```
+
 In other nodes, join the cluster by running `kubeadm join XXX` (command above) to join the cluster.
 
 To check all nodes, run `kubeadm get nodes` in master node. You can set `KUBECONFIG` env var or appen `--kubeconfig=/etc/kubernetes/admin.conf` flag in kubeadm to change the kubeconfig.
+
+```console
+user@host:~$ sudo kubectl get nodes
+NAME        STATUS   ROLES    AGE     VERSION
+aaaaa       Ready    <none>   41s     v1.18.2
+bbbbb       Ready    master   5m26s   v1.18.2
+```
