@@ -166,3 +166,5 @@ kubeadm join 192.168.1.82:6443 --token XXX \
 ```
 
 In other nodes, join the cluster by running `kubeadm join XXX` (command above) to join the cluster.
+
+To check all nodes, run `kubeadm get nodes` in master node. You can set `KUBECONFIG` env var or appen `--kubeconfig=/etc/kubernetes/admin.conf` flag in kubeadm to change the kubeconfig.
