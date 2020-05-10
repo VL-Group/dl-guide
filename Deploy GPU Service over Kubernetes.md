@@ -139,6 +139,8 @@ user@host:~$ sudo systemctl restart kubelet
 
 ### Create Cluster
 
+In the master node, run kubeadm initialization
+
 ```console
 user@host:~$ # init kubeadm (pull image from mirror)
 user@host:~$ sudo kubeadm init --image-repository registry.cn-hangzhou.aliyuncs.com/google_containers
@@ -163,3 +165,4 @@ kubeadm join 192.168.1.82:6443 --token XXX \
     --discovery-token-ca-cert-hash sha256:XXX
 ```
 
+In other nodes, join the cluster by running `kubeadm join XXX` (command above) to join the cluster.
