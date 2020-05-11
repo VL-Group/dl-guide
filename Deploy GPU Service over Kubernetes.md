@@ -35,6 +35,8 @@ user@host:~$ sudo mkdir -p /etc/systemd/system/docker.service.d
 
 ## Install NVIDIA docker 2
 
+Before installation, install CUDA toolkit from https://developer.nvidia.com/cuda-downloads?target_os=Linux
+
 ```console
 user@host:~$ # Add the package repositories
 user@host:~$ distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
@@ -58,6 +60,7 @@ user@host:~$ cat <<EOF | sudo tee /etc/docker/daemon.json
         "max-size": "100m"
     },
     "storage-driver": "overlay2",
+    "default-runtime": "nvidia",
     "runtimes": {
         "nvidia": {
             "path": "nvidia-container-runtime",
@@ -143,11 +146,18 @@ Before `kubeadm init`, you should choose a pod network, see https://kubernetes.i
 
 **IMPORTANT: The CIDR of the pod network can't be conflict with your current network, try 10.0.0.0/16, 172.16.0.0/16, 192.168.0.0/16...**
 
+**CHECK FIREWALL**
+
 **NOTE FOR CALICO**
 1. For each node, set `net.ipv4.conf.all.rp_filter` to 0 or 1 in `/etc/sysctl.conf`.
-2. When you modify the CIDR, you should also modify the `CALICO_IPV4POOL_CIDR` in `calico.yaml`
-3. Set `IP_AUTODETECTION_METHOD` to `"can-reach=www.baidu.com"` in `calico.yaml` or config it on-the-fly `https://docs.projectcalico.org/networking/ip-autodetection`.
-4. Check all `calico-node-XXXXX` pods in kube-system namespace are ready.
+2. Add config `/etc/NetworkManager/conf.d/calico.conf` and append:
+```
+[keyfile]
+unmanaged-devices=interface-name:cali*;interface-name:tunl*
+```
+3. When you modify the CIDR, you should also modify the `CALICO_IPV4POOL_CIDR` in `calico.yaml`
+4. Set `IP_AUTODETECTION_METHOD` to `"can-reach=www.baidu.com"` in `calico.yaml` or config it on-the-fly `https://docs.projectcalico.org/networking/ip-autodetection`.
+5. Check all `calico-node-XXXXX` pods in kube-system namespace are ready.
 
 In the master node, run kubeadm initialization
 
@@ -191,3 +201,44 @@ NAME        STATUS   ROLES    AGE     VERSION
 aaaaa       Ready    <none>   41s     v1.18.2
 bbbbb       Ready    master   5m26s   v1.18.2
 ```
+
+### Add GPU support
+
+#### Routine 1 (only for test): Use NVIDIA k8s-device-plugin
+
+Before creating, install `nvidia-container-runtime` and check docker default runtime is `nvidia-container-runtime`.
+ 
+```console
+user@host:~$ sudo kubectl create -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/master/nvidia-device-plugin.yml
+user@host:~$ sudo kubectl get pods --all-namespaces
+NAMESPACE     NAME                                       READY   STATUS    RESTARTS   AGE
+...           ...                                        ...     ...       ...        ...
+kube-system   nvidia-device-plugin-daemonset-g6ntz       1/1     Running   0          6m27s
+user@host:~$ sudo kubectl logs -n kube-system nvidia-device-plugin-daemonset-g6ntz
+2020/05/11 12:46:28 Loading NVML
+2020/05/11 12:46:28 Starting FS watcher.
+2020/05/11 12:46:28 Starting OS watcher.
+2020/05/11 12:46:28 Retreiving plugins.
+2020/05/11 12:46:28 Starting GRPC server for 'nvidia.com/gpu'
+2020/05/11 12:46:28 Starting to serve 'nvidia.com/gpu' on /var/lib/kubelet/device-plugins/nvidia.sock
+2020/05/11 12:46:28 Registered device plugin for 'nvidia.com/gpu' with Kubelet
+user@host:~$ sudo kubectl describe node 12306
+Capacity:
+  cpu:                32
+  ephemeral-storage:  1921744752Ki
+  hugepages-1Gi:      0
+  hugepages-2Mi:      0
+  memory:             247514064Ki
+  nvidia.com/gpu:     8
+  pods:               110
+Allocatable:
+  cpu:                32
+  ephemeral-storage:  1771079960511
+  hugepages-1Gi:      0
+  hugepages-2Mi:      0
+  memory:             247411664Ki
+  nvidia.com/gpu:     8
+  pods:               110
+```
+
+When `nvidia.com/gpu` appears in `Capacity` and `Allocatable`, installation is completed (K8s, Pod-Network and nvidia-docker).
