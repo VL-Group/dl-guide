@@ -224,7 +224,7 @@ user@host:~$ sudo kubectl logs -n kube-system nvidia-device-plugin-daemonset-g6n
 2020/05/11 12:46:28 Starting GRPC server for 'nvidia.com/gpu'
 2020/05/11 12:46:28 Starting to serve 'nvidia.com/gpu' on /var/lib/kubelet/device-plugins/nvidia.sock
 2020/05/11 12:46:28 Registered device plugin for 'nvidia.com/gpu' with Kubelet
-user@host:~$ sudo kubectl describe node 12306
+user@host:~$ sudo kubectl describe node [XXXXX]
 Capacity:
   cpu:                32
   ephemeral-storage:  1921744752Ki
