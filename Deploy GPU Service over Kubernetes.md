@@ -148,6 +148,7 @@ Before `kubeadm init`, you should choose a pod network, see https://kubernetes.i
 
 **CHECK FIREWALL**
 
+---
 **NOTE FOR CALICO**
 1. For each node, set `net.ipv4.conf.all.rp_filter` to 0 or 1 in `/etc/sysctl.conf`.
 2. Add config `/etc/NetworkManager/conf.d/calico.conf` and append:
@@ -158,6 +159,7 @@ unmanaged-devices=interface-name:cali*;interface-name:tunl*
 3. When you modify the CIDR, you should also modify the `CALICO_IPV4POOL_CIDR` in `calico.yaml`
 4. Set `IP_AUTODETECTION_METHOD` to `"can-reach=www.baidu.com"` in `calico.yaml` or config it on-the-fly `https://docs.projectcalico.org/networking/ip-autodetection`.
 5. Check all `calico-node-XXXXX` pods in kube-system namespace are ready.
+---
 
 In the master node, run kubeadm initialization
 
