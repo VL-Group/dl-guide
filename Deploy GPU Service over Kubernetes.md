@@ -141,6 +141,14 @@ user@host:~$ sudo systemctl restart kubelet
 
 Before `kubeadm init`, you should choose a pod network, see https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/#pod-network
 
+**IMPORTANT: The CIDR of the pod network can't be conflict with your current network, try 10.0.0.0/16, 172.16.0.0/16, 192.168.0.0/16...**
+
+**NOTE FOR CALICO**
+1. For each node, set `net.ipv4.conf.all.rp_filter` to 0 or 1 in `/etc/sysctl.conf`.
+2. When you modify the CIDR, you should also modify the `CALICO_IPV4POOL_CIDR` in `calico.yaml`
+3. Set `IP_AUTODETECTION_METHOD` to `"can-reach=www.baidu.com"` in `calico.yaml` or config it on-the-fly `https://docs.projectcalico.org/networking/ip-autodetection`.
+4. Check all `calico-node-XXXXX` pods in kube-system namespace are ready.
+
 In the master node, run kubeadm initialization
 
 ```console
