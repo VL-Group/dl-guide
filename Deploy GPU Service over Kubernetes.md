@@ -79,7 +79,7 @@ user@host:~$ sudo systemctl restart docker
 ### Install kubeadm
 
 For each node in the cluster, you must:
-* Turn off swap permanently
+* Turn off swap permanently (https://unix.stackexchange.com/a/224348)
 * Verify the MAC address and product_uuid are unique for every node
 * Nodes are reachable on the network (add IP route(s) if necessary)
 * Letting iptables see bridged traffic
