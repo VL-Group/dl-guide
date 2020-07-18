@@ -19,6 +19,17 @@ for dir in $hdddir; do
     ln -f -s $dir $target
     i=$((i+1))
 done
+
+if [ $i -eq 0 ]
+    then
+        mostFreeDisk = $(df | grep /dev/sd.*/mnt | sort -k 5 | tail -1 | awk '{ print $6 }')
+        echo "Making dir $1 in $mostFreeDisk"
+        mkdir $mostFreeDisk/$1
+        datadir=$mostFreeDisk/$1
+        chown $1:$1 $datadir
+        ln -s $datadir /home/$1/data
+        echo "linking $datadir to /home/$1/data"
+
 chown -R $1:$1 /home/$1
 echo "Changing default shell to bash"
 echo $2 | sudo -S -H -u $1 chsh -s /bin/bash
