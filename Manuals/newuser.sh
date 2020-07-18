@@ -22,14 +22,14 @@ done
 
 if [ $i -eq 0 ]
     then
-        mostFreeDisk = $(df | grep /dev/sd.*/mnt | sort -k 5 | tail -1 | awk '{ print $6 }')
+        mostFreeDisk=$(df | grep /dev/sd.*/mnt | sort -k 5 | tail -1 | awk '{ print $6 }')
         echo "Making dir $1 in $mostFreeDisk"
-        mkdir $mostFreeDisk/$1
-        datadir=$mostFreeDisk/$1
+        datadir="$mostFreeDisk/$1"
+        mkdir $datadir
         chown $1:$1 $datadir
-        ln -s $datadir /home/$1/data
+        ln -f -s $datadir /home/$1/data
         echo "linking $datadir to /home/$1/data"
-
+fi
 chown -R $1:$1 /home/$1
 echo "Changing default shell to bash"
 echo $2 | sudo -S -H -u $1 chsh -s /bin/bash
