@@ -21,3 +21,9 @@ nvidia/cuda         10.0-base           841d44dd4b3c        7 months ago        
 bvlc/caffe          gpu                 ba28bcb1294c        2 years ago         3.38GB
 
 ```
+
+* 运行一个容器，并将本地目录挂载到容器的 /mnt 目录下面
+```console
+user@host:~$ docker run -v /HOST_DIR:/mnt -it --gpus all zpp/densecap /bin/bash
+```
+这样，对 /mnt 的所有读写操作就是对 `HOST_DIR` 的直接操作。
