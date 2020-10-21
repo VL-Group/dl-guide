@@ -42,6 +42,13 @@ network:
   version: 2
 ```
 
+This set network to use static IP, in order to use NAT.
+
+Then apply changes:
+```console
+user@host:~$ sudo netplan apply
+```
+
 ### Setup SSH Server
 
 ```console
