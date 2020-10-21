@@ -148,6 +148,13 @@ Follow the commands to install, and reboot.
 
 ![](c.png)
 
+
+### Mirrors
+
+* Change `apt` or `yum` repos to [Aliyun](https://developer.aliyun.com/mirror/), or [Tuna](https://mirrors.tuna.tsinghua.edu.cn/).
+* Also change `Pypi`, `Conda`, etc.
+
+
 ## Administration
 
 **Please use the script carefully.**
