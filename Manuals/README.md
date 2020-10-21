@@ -148,6 +148,13 @@ Follow the commands to install, and reboot.
 
 ![](c.png)
 
+**Disable X**:
+```console
+sudo systemctl enable multi-user.target --force
+sudo systemctl set-default multi-user.target
+```
+Disable X can take machine to text mode only, don't use graphic modes, and will not set auto-hibernate, which caused by Xorg.
+
 
 ### Mirrors
 
