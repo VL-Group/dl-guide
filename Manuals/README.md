@@ -158,9 +158,16 @@ Disable X can take machine to text mode only, don't use graphic modes, and will 
 
 ### Mirrors
 
-* Change `apt` or `yum` repos to [Aliyun](https://developer.aliyun.com/mirror/), or [Tuna](https://mirrors.tuna.tsinghua.edu.cn/).
+* Change `apt` or `yum` repos to [Aliyun](https://developer.aliyun.com/mirror/) (**Recommended**), or [Tuna](https://mirrors.tuna.tsinghua.edu.cn/).
 * Also change `Pypi`, `Conda`, etc.
 
+
+### APT Auto-Update
+
+```console
+user@host:~$ sudo crontab -e
+42 3 * * * apt-get update && apt-get upgrade -y && apt-get dist-upgrade -y && apt-get autoremove
+```
 
 ## Administration
 
