@@ -128,6 +128,19 @@ user@host:~$ sudo mount -a
 **NOTE**:
 In order to use our script properly, you should mount in `/mnt/`, for example: `/mnt/hdd1`, `/mnt/hdd2`, `/mnt/ssd`.
 
+
+### Drivers
+
+https://developer.nvidia.com/cuda-downloads
+
+Select correct OS, version and **don't** use `.run` runfile to install.
+
+![](b.png)
+
+Follow the commands to install, and reboot.
+
+![](c.png)
+
 ## Administration
 
 **Please use the script carefully.**
