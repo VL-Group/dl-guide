@@ -8,7 +8,7 @@ Run:
 user@host:~$ bash <(curl -s https://raw.githubusercontent.com/cfm-uestc/Tutorial-for-Computer-Vision/master/PyTorchBuild/install-online.sh)
 ```
 
-O
+Or:
 
 ```console
 user@host:~$ bash <(curl -s https://raw.githubusercontent.com/cfm-uestc/Tutorial-for-Computer-Vision/master/PyTorchBuild/install.sh)
