@@ -179,7 +179,7 @@ user@host:~$ sudo crontab -e
 user@host:~$ sudo sh newuser.sh [username] [password]
 ```
 
-### Automatically Reset Owner in a Directory
+### (ONLY FOR RE-INSTALL) Automatically Reset Owner in a Directory
 
 ```console
 user@host:~$ find . -maxdepth 1 -type d | sudo bash ~/set.sh
