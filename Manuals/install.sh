@@ -48,3 +48,8 @@ echo "Install torchvision"
 
 python setup.py install
 
+echo "Install complete"
+
+echo "Check your install by:"
+
+echo ">>> import torch${NEWLINE}>>> torch.randn(5).cuda()${NEWLINE}tensor([-0.0970,  0.2332, -0.7501, -0.2322,  1.0216], device='cuda:0')${NEWLINE}>>> torch.backends.cudnn.is_acceptable(torch.randn(5).cuda())${NEWLINE}True"
