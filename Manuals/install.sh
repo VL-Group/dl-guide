@@ -53,7 +53,43 @@ python setup.py clean
 
 python setup.py install
 
-echo "Install complete"
+cd ..
+
+echo "Copy torchtext.zip"
+
+cp /mnt/hdd1/torchtext.zip ./
+
+unzip -o torchtext.zip
+
+cd torchtext
+
+echo "Install torchtext"
+
+python setup.py clean
+
+python setup.py install
+
+echo "Install complete, clean up"
+
+cd pytorch
+
+python setup.py clean
+
+cd ..
+
+cd vision
+
+python setup.py clean
+
+cd ..
+
+cd torchtext
+
+python setup.py clean
+
+cd ..
+
+rm -rf pytorch pytorch.zip vision torchvision.zip torchtext torchtext.zip
 
 echo "Check your install by:"
 
