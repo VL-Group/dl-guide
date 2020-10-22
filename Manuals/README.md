@@ -148,6 +148,51 @@ Follow the commands to install, and reboot.
 
 ![](c.png)
 
+**Disable X**:
+```console
+sudo systemctl enable multi-user.target --force
+sudo systemctl set-default multi-user.target
+```
+Disable X can take machine to text mode only, don't use graphic modes, and will not set auto-hibernate, which caused by Xorg.
+
+
+### Install CuDNN, NCCL, TensorRT
+
+* **CuDNN**
+
+https://developer.nvidia.com/rdp/cudnn-download
+
+Follow the instructions on https://docs.nvidia.com/deeplearning/cudnn/install-guide/index.html
+
+![](d.png)
+
+![](e.png)
+
+
+* **NCCL**
+
+https://developer.nvidia.com/nccl/nccl-download
+
+
+Follow the instructions on https://docs.nvidia.com/deeplearning/nccl/install-guide/index.html
+
+![](f.png)
+
+
+
+### Mirrors
+
+* Change `apt` or `yum` repos to [Aliyun](https://developer.aliyun.com/mirror/) (**Recommended**), or [Tuna](https://mirrors.tuna.tsinghua.edu.cn/).
+* Also change `Pypi`, `Conda`, etc.
+
+
+### APT Auto-Update
+
+```console
+user@host:~$ sudo crontab -e
+42 3 * * * apt-get update && apt-get upgrade -y && apt-get dist-upgrade -y && apt-get autoremove
+```
+
 ## Administration
 
 **Please use the script carefully.**
@@ -158,7 +203,7 @@ Follow the commands to install, and reboot.
 user@host:~$ sudo sh newuser.sh [username] [password]
 ```
 
-### Automatically Reset Owner in a Directory
+### (ONLY FOR RE-INSTALL) Automatically Reset Owner in a Directory
 
 ```console
 user@host:~$ find . -maxdepth 1 -type d | sudo bash ~/set.sh
