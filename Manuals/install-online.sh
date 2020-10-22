@@ -20,13 +20,20 @@ echo "Install Magma CUDA 11.0"
 conda install -y -c pytorch magma-cuda110
 
 
-echo "Copy pytorch.zip"
+echo "Fetch PyTorch"
 
-cp /mnt/hdd1/pytorch.zip ./
-
-unzip -o pytorch.zip
-
+git clone --recursive https://github.com/pytorch/pytorch
 cd pytorch
+
+set +e
+set +o
+
+git submodule sync
+git submodule update --init --recursive
+
+
+set -e
+set -o pipefail
 
 echo "Install PyTorch"
 
@@ -39,11 +46,9 @@ python setup.py install
 
 cd ..
 
-echo "Copy torchvision.zip"
+echo "Fetch torchvision"
 
-cp /mnt/hdd1/torchvision.zip ./
-
-unzip -o torchvision.zip
+git clone https://github.com/pytorch/vision.git
 
 cd vision
 
@@ -55,13 +60,16 @@ python setup.py install
 
 cd ..
 
-echo "Copy torchtext.zip"
+echo "Fetch torchtext"
 
-cp /mnt/hdd1/torchtext.zip ./
-
-unzip -o torchtext.zip
-
+git clone https://github.com/pytorch/text torchtext
 cd torchtext
+
+set +e
+set +o
+git submodule update --init --recursive
+set -e
+set -o pipefail
 
 echo "Install torchtext"
 
@@ -91,7 +99,7 @@ python setup.py clean
 
 cd ..
 
-rm -rf pytorch pytorch.zip vision torchvision.zip torchtext torchtext.zip
+rm -rf pytorch vision torchtext
 
 echo "Check your install by:"
 
