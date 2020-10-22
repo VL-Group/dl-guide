@@ -30,7 +30,10 @@ cd pytorch
 
 echo "Install PyTorch"
 
+
 export CMAKE_PREFIX_PATH=${CONDA_PREFIX:-"$(dirname $(which conda))/../"}
+
+python setup.py clean
 
 python setup.py install
 
@@ -45,6 +48,8 @@ unzip -o torchvision.zip
 cd vision
 
 echo "Install torchvision"
+
+python setup.py clean
 
 python setup.py install
 
