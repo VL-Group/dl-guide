@@ -48,9 +48,9 @@ cd ..
 
 echo "Fetch torchvision"
 
-git clone https://github.com/pytorch/vision.git
+git clone https://github.com/pytorch/vision.git torchvision
 
-cd vision
+cd torchvision
 
 echo "Install torchvision"
 
@@ -87,7 +87,7 @@ python setup.py clean
 
 cd ..
 
-cd vision
+cd torchvision
 
 python setup.py clean
 
@@ -99,7 +99,7 @@ python setup.py clean
 
 cd ..
 
-rm -rf pytorch vision torchtext
+rm -rf pytorch torchvision torchtext
 
 echo "Check your install by:"
 
