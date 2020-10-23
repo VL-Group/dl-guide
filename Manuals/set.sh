@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 
 # find . -maxdepth 1 -type d | sudo bash ~/set.sh
 while read line;

@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 if [ $# -eq 0 ]
     then
         echo "Wrong input arguments, expect [username] [password]"
