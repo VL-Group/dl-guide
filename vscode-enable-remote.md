@@ -44,10 +44,10 @@ ssh %REMOTEHOST% "mkdir -p ~/.ssh && chmod 700 ~/.ssh && cat ~/tmp.pub >> ~/.ssh
 ```bash
 # Read more about SSH config files: https://linux.die.net/man/5/ssh_config
 Host your-host-alias
-    HostName host-fqdn-or-ip
-    Port ssh-port
-    IdentityFile C:\path\to\your\exported\private\keyfile
-    User your-user-name
+     HostName host-fqdn-or-ip
+     Port ssh-port
+     IdentityFile C:\path\to\your\exported\private\keyfile
+     User your-user-name
 ```
 
 ## 连接并使用
