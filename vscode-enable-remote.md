@@ -8,7 +8,7 @@
 
 ## 工作方式
 * 本地计算机安装 Visual Studio Code；
-* 远程服务器安装 Code Server；
+* 远程服务器自动配置 Code Server；
 * 通过 SSH 连接到远程服务器进行开发、调试。
 
 ## 生成 SSH 密钥文件
