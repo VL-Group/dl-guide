@@ -182,7 +182,7 @@ Follow the instructions on https://docs.nvidia.com/deeplearning/nccl/install-gui
 
 ### Mirrors
 
-* Change `apt` or `yum` repos to [Aliyun](https://developer.aliyun.com/mirror/) (**Recommended**), or [Tuna](https://mirrors.tuna.tsinghua.edu.cn/).
+* Change `apt` or `yum` repos to [Aliyun](https://developer.aliyun.com/mirror/) (**Recommended**) [SJTU](https://mirrors.sjtug.sjtu.edu.cn/) (**Recommended**), or [Tuna](https://mirrors.tuna.tsinghua.edu.cn/).
 * Also change `Pypi`, `Conda`, etc.
 
 
