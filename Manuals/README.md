@@ -205,6 +205,14 @@ user@host:~$ sudo sh newuser.sh [username] [password]
 
 ### (ONLY FOR RE-INSTALL) Automatically Reset Owner in a Directory
 
+After re-install, owner information of previously created directories will be messed up. To fix it, go to the directory you want to update e.g. `/mnt/hdd1`:
+
+```console
+user@host:~$ cd /mnt/hdd1
+```
+
+Then use the script to update owner. e.g. The directory named `alien` will be updated with owner `alien:alien`.
+
 ```console
 user@host:~$ find . -maxdepth 1 -type d | sudo bash ~/set.sh
 ```
