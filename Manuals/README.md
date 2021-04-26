@@ -1,35 +1,35 @@
-# Manuals
+# 服务器维护手册
 
-## Install a Server
+## 安装纯净系统
 
-### Download OS Image (.iso)
+### 下载系统镜像 (.iso)
 
 * **Ubuntu** (Debian): https://ubuntu.com/download/server
 * **CentOS** (RHEL): https://www.centos.org/download/
 
-### Burn the Image into Bootable USB Device
+### 使用镜像文件制作 USB 启动盘
 
-* Download **Rufus**: https://rufus.ie/
-* Select .iso and use default options:
+* 下载 **Rufus**: https://rufus.ie/
+* 找到并选择正确的 USB 设备和镜像文件，其他选项保持默认:
 
 ![](a.png)
 
-Wait for complete.
+等待制作完成。
 
 ### Installation
 
-* On system boot, invoke the boot menu and select your USB.
-* Install with almost default settings. Be careful to choose disk to install.
-* In most cases, don't create LVM group when formatting the disk.
+* 关机并冷启动，在 BIOS 启动过程中调出启动菜单，选择 USB 设备作为启动设备。
+* 可以全部使用默认选项进行安装，需要格外注意安装的硬盘不能选错。
+* 一般在格式化硬盘的时候不启用 LVM Group。
 
-## First-Run
+## 安装后首次运行
 
-### Setup Network
+### 配置网络
 
 ```console
 user@host:~$ sudo vim /etc/netplan/00-installer-config.yaml
 ```
-Modify like this:
+以如下形式启用固定 IP 定制和指定 DNS 服务器。
 ```
 network:
   ethernets:
@@ -42,19 +42,19 @@ network:
   version: 2
 ```
 
-This set network to use static IP, in order to use NAT.
+启用固定 IP 后，NAT 端口转发才能正常使用。
 
-Then apply changes:
+记得应用配置：
 ```console
 user@host:~$ sudo netplan apply
 ```
 
-### Setup SSH Server
+### 配置 SSH 服务器
 
 ```console
 user@host:~$ sudo vim /etc/ssh/sshd_config
 ```
-Useful settings:
+常用设置：
 ```
 Port XXXX                    # SSH server listening port
 UseDNS no
@@ -63,14 +63,14 @@ PermitRootLogin no           # Prohibit root login
 Match User admin,ubuntu      # Per-User settings
        PasswordAuthentication no
 ```
-Restart SSH to apply changes.
+重启 SSH 服务以更新配置：
 ```console
 user@host:~$ sudo service sshd restart
 ```
 
-### Mounting Disks
+### 挂载硬盘
 
-List disks
+列出所有可用硬盘
 ```console
 user@host:~$ sudo fdisk -l
 Disk /dev/loop0: 29.9 MiB, 31334400 bytes, 61200 sectors
@@ -116,53 +116,53 @@ Device       Start        End    Sectors   Size Type
 /dev/sda2  1050624 1875382271 1874331648 893.8G Linux filesystem
 ```
 
-For example, you want to mount /dev/sdb1 (7.3T HDD disk), edit `/etc/fstab`
+以 `dev/sdb1 (7.3T HDD disk)` 为例，要把它挂载到 `/mnt/hdd1` 上，首先编辑 `/etc/fstab`：
 ```console
 user@host:~$ sudo vim /etc/fstab
 ```
 
-Append a line:
+添加一行：
 ```
 /dev/sdb1 /mnt/hdd1 ext4 defaults 0 0
 ```
-It configs device, mounting point, file system and other mounting configs, repectively.
+分别为硬盘设备路径，挂载路径，文件系统以及挂载选项。
 
-To validate config is correct, do:
+执行挂载命令，若无报错信息且 `df` 命令可正确列出挂载的磁盘就完成了。
 ```console
 user@host:~$ sudo mount -a
 ```
 
-**NOTE**:
-In order to use our script properly, you should mount in `/mnt/`, for example: `/mnt/hdd1`, `/mnt/hdd2`, `/mnt/ssd`.
+**注意**：
+如果要使用最后一节的脚本来新建用户和更新文件夹信息的话，请将硬盘挂载到 `/mnt/` 中，如: `/mnt/hdd1`, `/mnt/hdd2`, `/mnt/ssd`.
 
 
-### Drivers
+### 驱动
 
 https://developer.nvidia.com/cuda-downloads
 
-Select correct OS, version and **don't** use `.run` runfile to install.
+选择正确的系统版本和系统架构， **不要使用** `.run` runfile 的方式安装。
 
 ![](b.png)
 
-Follow the commands to install, and reboot.
+依照网页上给出的指示操作，并重启系统。
 
 ![](c.png)
 
-**Disable X**:
+**禁用 X**：
 ```console
 sudo systemctl enable multi-user.target --force
 sudo systemctl set-default multi-user.target
 ```
-Disable X can take machine to text mode only, don't use graphic modes, and will not set auto-hibernate, which caused by Xorg.
+这些命令将 Linux 系统设置于无图形界面模式，这样可以完全停止 X 进程及释放其在 GPU 中的预留显存，并避免自动休眠。
 
 
-### Install CuDNN, NCCL, TensorRT
+### （可选）安装 CuDNN, NCCL, TensorRT
 
 * **CuDNN**
 
 https://developer.nvidia.com/rdp/cudnn-download
 
-Follow the instructions on https://docs.nvidia.com/deeplearning/cudnn/install-guide/index.html
+依照 https://docs.nvidia.com/deeplearning/cudnn/install-guide/index.html 上的步骤操作。
 
 ![](d.png)
 
@@ -173,53 +173,53 @@ Follow the instructions on https://docs.nvidia.com/deeplearning/cudnn/install-gu
 
 https://developer.nvidia.com/nccl/nccl-download
 
-
-Follow the instructions on https://docs.nvidia.com/deeplearning/nccl/install-guide/index.html
+依照 https://docs.nvidia.com/deeplearning/nccl/install-guide/index.html 上的步骤操作。
 
 ![](f.png)
 
 
+### （可选）Linux 软件源镜像
 
-### Mirrors
-
-* Change `apt` or `yum` repos to [Aliyun](https://developer.aliyun.com/mirror/) (**Recommended**) [SJTU](https://mirrors.sjtug.sjtu.edu.cn/) (**Recommended**), or [Tuna](https://mirrors.tuna.tsinghua.edu.cn/).
-* Also change `Pypi`, `Conda`, etc.
+* 更改 `apt` 或 `yum` 的软件源镜像可有效提升速度。推荐：[Aliyun](https://developer.aliyun.com/mirror/) 和 [SJTU](https://mirrors.sjtug.sjtu.edu.cn/)，也可使用 [Tuna](https://mirrors.tuna.tsinghua.edu.cn/).
+* `Pypi`，`Conda` 等软件源镜像也可在上述地址中找到。
 
 
-### APT Auto-Update
+### （可选）APT 自动更新
+
+APT 自动更新使系统软件包始终最新，请酌情采用。
 
 ```console
 user@host:~$ sudo crontab -e
 42 3 * * * apt-get update && apt-get upgrade -y && apt-get dist-upgrade -y && apt-get autoremove
 ```
 
-## Administration
+## 系统管理
 
-**Please use the script carefully.**
+**请小心使用此节提及的脚本**
 
-The scripts needed can be found in this repositry. To use it, copy the raw content or clone this whole repositry to `~`.
+这些脚本可以在这个目录里找到。你可以直接从网页拷贝到 `~` 下，或者使用 `git clone` 克隆下来。
 
-### Create a New User
+### 创建新用户
 
 ```console
 user@host:~$ sudo sh newuser.sh [username] [password]
 ```
 
-### (ONLY FOR RE-INSTALL) Automatically Reset Owner in a Directory
+### （仅限重装时使用）自动重设文件夹的所有者
 
-After re-install, owner information of previously created directories will be messed up. To fix it, go to the directory you want to update e.g. `/mnt/hdd1`:
+重装后，原来的文件夹所有者信息会和当前不对应，要修复它，首先进入 `/mnt/hdd1` 目录:
 
 ```console
 user@host:~$ cd /mnt/hdd1
 ```
 
-Then use the script to update owner. e.g. The directory named `alien` will be updated with owner `alien:alien`.
+然后使用下面的命令更新所有者。例如，`alien` 文件夹的所有者会被更新为 `alien:alien`。
 
 ```console
 user@host:/mnt/hdd1$ find . -maxdepth 1 -type d | sudo bash ~/set.sh
 ```
 
-### Add a User to Sudoers
+### 将一个用户添加到 Sudoers
 
 In Ubuntu or Debian:
 ```console
