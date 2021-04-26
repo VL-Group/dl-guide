@@ -197,6 +197,8 @@ user@host:~$ sudo crontab -e
 
 **Please use the script carefully.**
 
+The scripts needed can be found in this repositry. To use it, copy the raw content or clone this whole repositry to `~`.
+
 ### Create a New User
 
 ```console
