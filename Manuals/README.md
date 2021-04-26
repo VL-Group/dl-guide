@@ -214,7 +214,7 @@ user@host:~$ cd /mnt/hdd1
 Then use the script to update owner. e.g. The directory named `alien` will be updated with owner `alien:alien`.
 
 ```console
-user@host:~$ find . -maxdepth 1 -type d | sudo bash ~/set.sh
+user@host:/mnt/hdd1$ find . -maxdepth 1 -type d | sudo bash ~/set.sh
 ```
 
 ### Add a User to Sudoers
