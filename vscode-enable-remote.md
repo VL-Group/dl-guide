@@ -76,10 +76,25 @@ A: 推荐的还是使用 Windows 原生的 OpenSSH (使用 Windows 10)。如果�
 
 https://code.visualstudio.com/docs/remote/troubleshooting#_installing-a-supported-ssh-client
 
-
 **Q: 如何保持本地文件和服务器文件的同步？**
 
 A: 1: 可以使用 `SSHFS` 来方便地把远程目录映射到本地的网络文件夹上（Windows 上使用 [Chocolatey](https://chocolatey.org/) 安装）。2: 使用 `rsync` 程序可以保持文件的同步（Windows 上使用 WSL）。
+
+**Q: 有一台机器只能通过跳板机访问，如何连接？**
+
+A: 只需在 SSH 配置文件中首先加入跳板机并命名为 [Jumper]，然后按下面的格式再添加需要的机器：
+
+```bash
+Host Any-Jumper-Name
+     ...
+     ...
+
+Host Your-Target-Machine
+     HostName <IP address of target>
+     User Username
+     IdentityFile C:\path\to\your\exported\private\keyfile
+     ProxyCommand ssh -q -W %h:%p Any-Jumper-Name
+```
 
 **Q: 我不想使用密钥来登录 SSH。**
 
