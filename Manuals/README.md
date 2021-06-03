@@ -155,6 +155,16 @@ sudo systemctl set-default multi-user.target
 ```
 这些命令将 Linux 系统设置于无图形界面模式，这样可以完全停止 X 进程及释放其在 GPU 中的预留显存，并避免自动休眠。
 
+### 安装 CUDA Toolkit
+
+```console
+sudo apt list cuda-toolkit*
+```
+
+
+```console
+sudo apt install cuda-toolkit-xx-x
+```
 
 ### （可选）安装 CuDNN, NCCL, TensorRT
 
