@@ -24,7 +24,7 @@ done
 
 if [ $i -eq 0 ]
     then
-        mostFreeDisk=$(df | grep /dev/sd.*/mnt | sort -k 5 | tail -1 | awk '{ print $6 }')
+        mostFreeDisk=$(df | grep /dev/sd.*/mnt | sort -rk 5 | tail -1 | awk '{ print $6 }')
         echo "Making dir $1 in $mostFreeDisk"
         datadir="$mostFreeDisk/$1"
         mkdir $datadir
